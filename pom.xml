@@ -165,7 +165,7 @@
 
 
     <scm>
-        <developerConnection>scm:git:https://github.com/hendy643/teabot.git</developerConnection>
+        <developerConnection>scm:git:git://github.com/hendy643/teabot.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
