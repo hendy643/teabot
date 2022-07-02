@@ -8,7 +8,7 @@
     </parent>
     <groupId>group.teafc</groupId>
     <artifactId>teabot</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.0-SNAPSHOT</version>
     <name>TeaBot</name>
     <description>An FFXIV FC Management Bot</description>
     <properties>
