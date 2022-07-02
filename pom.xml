@@ -1,15 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>group.teafc</groupId>
     <artifactId>teabot</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
     <name>TeaBot</name>
     <description>An FFXIV FC Management Bot</description>
     <properties>
@@ -24,24 +23,18 @@
     <profiles>
         <profile>
             <id>development</id>
-            <activation>
-                <property>
-                    <name>!production</name>
-                </property>
-            </activation>
             <properties>
-                <spring.profiles.active>bot,db,dev</spring.profiles.active>
+                <bot>bot</bot>
+                <db>db</db>
+                <exe.env>dev</exe.env>
             </properties>
         </profile>
         <profile>
             <id>production</id>
-            <activation>
-                <property>
-                    <name>production</name>
-                </property>
-            </activation>
             <properties>
-                <spring.profiles.active>bot,db,prod</spring.profiles.active>
+                <bot>bot</bot>
+                <db>db</db>
+                <exe.env>prod</exe.env>
             </properties>
         </profile>
     </profiles>
@@ -173,7 +166,8 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/hendy643/teabot.git</developerConnection>
-    </scm>
+      <tag>v0.1.0</tag>
+  </scm>
 
     <build>
         <plugins>
@@ -211,7 +205,7 @@
                         <releaseBranchPrefix>release/</releaseBranchPrefix>
                         <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
                         <supportBranchPrefix>support/</supportBranchPrefix>
-                        <versionTagPrefix/>
+                        <versionTagPrefix />
                         <origin>origin</origin>
                     </gitFlowConfig>
                 </configuration>
@@ -251,6 +245,11 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <profiles>
+                        <profile>${bot}</profile>
+                        <profile>${db}</profile>
+                        <profile>${exe.env}</profile>
+                    </profiles>
                 </configuration>
             </plugin>
         </plugins>
