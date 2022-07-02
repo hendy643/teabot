@@ -178,7 +178,7 @@
                 <configuration>
                     <to>
                         <image>ghcr.io/hendy643/teabot</image>
-                        <tags>latest,${project.version}</tags>
+                        <tags>latest,v${project.version}</tags>
                     </to>
                 </configuration>
             </plugin>
@@ -190,6 +190,7 @@
                     <tagBase>
                         file:///${project.basedir}/tags
                     </tagBase>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration>
             </plugin>
             <plugin>
