@@ -216,7 +216,7 @@
                 <version>3.2.1</version>
                 <configuration>
                     <to>
-                        <image>ghcr.io/elusivewompus/teabot</image>
+                        <image>ghcr.io/hendy643/teabot</image>
                     </to>
                 </configuration>
             </plugin>
