@@ -11,5 +11,4 @@ public class TeabotApplication {
     public static void main(String[] args) {
         SpringApplication.run(TeabotApplication.class, args);
     }
-
 }

@@ -1,85 +1,98 @@
 package group.teafc.teabot.services;
 
+import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
-import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
-import group.teafc.teabot.commands.SlashCommand;
-import group.teafc.teabot.commands.registers.GlobalCommandRegistrar;
-import group.teafc.teabot.commands.registers.GuildCommandRegistrar;
-import group.teafc.teabot.db.entities.GuildEntity;
+import discord4j.core.event.EventDispatcher;
+import discord4j.core.object.presence.ClientActivity;
+import discord4j.core.object.presence.ClientPresence;
+import discord4j.gateway.intent.IntentSet;
+import group.teafc.teabot.commands.global.chat.Greet;
+import group.teafc.teabot.commands.global.chat.Invite;
+import group.teafc.teabot.commands.global.chat.Ping;
 import group.teafc.teabot.db.repositories.GuildRepository;
 import lombok.extern.slf4j.Slf4j;
+import net.exploitables.slashlib.SlashLib;
+import net.exploitables.slashlib.SlashLibBuilder;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+
 
 @Slf4j
 @Service
 public class DiscordService {
 
-    private final GlobalCommandRegistrar globalCommandRegistrar;
-    private final GuildCommandRegistrar guildCommandsRegistrar;
-    private final GatewayDiscordClient client;
-    private final Collection<SlashCommand> commands;
+  private DiscordClient discordClient;
+  private GatewayDiscordClient client;
 
-    private final GuildRepository guildRepository;
+  private final GuildRepository guildRepository;
 
-    @Value("${bot.ids.owner.fc}")
-    private Long ownerFcId;
+  private long applicationId;
 
-    @Value("${bot.ids.owner.id}")
-    private Long ownerId;
+  private SlashLib slashLib;
+  private EventDispatcher dispatcher;
 
-    @Value("${bot.discord.client.id}")
-    private String clientId;
+  @Value("${bot.ids.owner.fc}")
+  private Long ownerFcId;
 
-    public DiscordService(final GuildRepository guildRepository, final List<SlashCommand> slashCommands, final GatewayDiscordClient client, final GlobalCommandRegistrar globalCommands, final GuildCommandRegistrar guildCommands) {
-        this.guildRepository = guildRepository;
-        this.client = client;
-        this.commands = slashCommands;
-        this.globalCommandRegistrar = globalCommands;
-        this.guildCommandsRegistrar = guildCommands;
-    }
+  @Value("${bot.ids.owner.id}")
+  private Long ownerId;
 
-    @PostConstruct
-    public void postConstruct() {
-        client.on(ChatInputInteractionEvent.class, this::handle).subscribe();
-        try {
-            globalCommandRegistrar.registerCommands();
-            registerNewGuild(ownerFcId);
-        } catch (Exception e) {
-            log.error("Error registering commands: {}", e.getMessage());
-            throw new RuntimeException(e);
-        }
-        guildRepository.findAll().forEach(guildEntity -> this.guildCommandsRegistrar.registerNewGuild(guildEntity.getGuildId()));
-    }
+  @Value("${bot.discord.client.id}")
+  private String clientId;
 
-    @Transactional
-    public void registerNewGuild(long guildId) {
-        var found = Optional.ofNullable(guildRepository.findByGuildId(guildId));
+  @Value("${bot.discord.token}")
+  private String token;
 
-        if (found.isEmpty()) {
-            var newGuild = new GuildEntity();
-            newGuild.setGuildId(guildId);
-            guildRepository.save(newGuild);
-            found = Optional.ofNullable(guildRepository.findByGuildId(guildId));
-        }
+  public DiscordService(final GuildRepository guildRepository) {
+    this.guildRepository = guildRepository;
+  }
 
-        found.ifPresent(guildEntity -> guildCommandsRegistrar.registerNewGuild(guildEntity.getGuildId()));
-    }
+  @PostConstruct
+  private void postConstruct() {
+    discordClient = DiscordClient.create(token);
+    dispatcher = EventDispatcher.builder().build();
+    initCommandLib();
+    initDiscord();
+  }
 
-    @Transactional
-    public void unregisterGuild(long guildId) {
+  private void initDiscord() {
+    log.debug("Initialising Discord4J");
+    client =
+        discordClient.gateway().setEventDispatcher(dispatcher).setEnabledIntents(IntentSet.all())
+            .setInitialPresence(
+                ignore -> ClientPresence.online(ClientActivity.listening("to your every word")))
+            .login().block();
 
-    }
+    applicationId = Optional.ofNullable(discordClient.getApplicationId().block()).orElse(0L);
+    slashLib.getCommandRegister().registerGlobalCommands(discordClient.getApplicationService(),
+        applicationId);
+  }
 
-    public Mono<Void> handle(ChatInputInteractionEvent event) {
-        return Flux.fromIterable(commands).filter(command -> command.getName().equals(event.getCommandName())).next().flatMap(command -> command.handle(event));
-    }
+  private void initCommandLib() {
+    log.debug("Building Commands");
+    var slashLibBuilder = SlashLibBuilder.create().addGlobalChatCommand(new Ping())
+        .addGlobalChatCommand(new Invite()).addGlobalChatCommand(new Greet());
+
+    slashLib = slashLibBuilder.build();
+    slashLib.registerAsListener(dispatcher);
+  }
+
+  public final DiscordClient getDiscordClient() {
+    return discordClient;
+  }
+
+  public final SlashLib getSlashLib() {
+    return slashLib;
+  }
+
+  public final GatewayDiscordClient getDiscordGateway() {
+    return client;
+  }
+
+  public final long getApplicationId() {
+    return applicationId;
+  }
 }
