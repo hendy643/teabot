@@ -16,8 +16,9 @@
     <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <bot>bot</bot>
+        <db>db</db>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <testcontainers.version>1.17.3</testcontainers.version>
         <discord4j-version>3.2.2</discord4j-version>
@@ -30,16 +31,12 @@
         <profile>
             <id>development</id>
             <properties>
-                <bot>bot</bot>
-                <db>db</db>
                 <exe.env>dev</exe.env>
             </properties>
         </profile>
         <profile>
             <id>production</id>
             <properties>
-                <bot>bot</bot>
-                <db>db</db>
                 <exe.env>prod</exe.env>
             </properties>
         </profile>
@@ -63,7 +60,7 @@
             <id>github</id>
             <url>https://maven.pkg.github.com/hendy643/lodestone-java</url>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </snapshots>
         </repository>
     </repositories>
@@ -119,7 +116,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -130,11 +127,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -158,7 +150,7 @@
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>mariadb</artifactId>
+            <artifactId>mongodb</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -188,35 +180,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>1.1.0</version>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>read-project-properties</goal>
-                        </goals>
-                        <configuration>
-                            <files>
-                                <file>${project.basedir}/release.properties</file>
-                            </files>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <version>3.2.1</version>
-                <configuration>
-                    <to>
-                        <image>ghcr.io/hendy643/teabot</image>
-                        <tags>latest,${project.scm.tag}</tags>
-                    </to>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>3.0.0-M6</version>
@@ -226,11 +189,6 @@
                     </tagBase>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <version>2.11.0</version>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

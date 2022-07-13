@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="01f030db-0794-4315-9055-49e8de93b9a7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/xivapi.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group/teafc/teabot/configuration/LodestoneConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group/teafc/teabot/configuration/LodestoneConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/group/teafc/teabot/db/entities/GuildEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group/teafc/teabot/db/entities/GuildEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/group/teafc/teabot/db/repositories/GuildRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group/teafc/teabot/db/repositories/GuildRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-bot.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-bot.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-db.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,11 +25,14 @@
   <component name="JpbToolWindowState">
     <option name="myId2FirstActivated">
       <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
         <entry key="com.haulmont.jpb.jpaStructure" value="true" />
       </map>
     </option>
     <option name="myId2Visible">
       <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
         <entry key="com.haulmont.jpb.jpaStructure" value="true" />
       </map>
     </option>
@@ -45,7 +50,8 @@
     <option name="enabledProfiles">
       <list>
         <option value="development" />
-        <option value="teafc" />
+        <option value="bot" />
+        <option value="mongodb" />
       </list>
     </option>
   </component>
@@ -57,12 +63,17 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.2",
+    "spring.configuration.checksum": "4d6fe0435c1a02a300864c4bc45d982e",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -71,7 +82,7 @@
   </component>
   <component name="RunManager">
     <configuration name="TeabotApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <option name="ACTIVE_PROFILES" value="bot,db,dev" />
+      <option name="ACTIVE_PROFILES" value="bot,mongodb,dev" />
       <module name="teabot" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="group.teafc.teabot.TeabotApplication" />
       <method v="2">
@@ -88,7 +99,8 @@
       <option name="presentableId" value="Default" />
       <updated>1657104431360</updated>
       <workItem from="1657104436155" duration="506000" />
-      <workItem from="1657747043642" duration="377000" />
+      <workItem from="1657747043642" duration="1350000" />
+      <workItem from="1657748432580" duration="298000" />
     </task>
     <servers />
   </component>
