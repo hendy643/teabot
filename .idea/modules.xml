@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/teabot.iml" filepath="$PROJECT_DIR$/.idea/teabot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/teabot.iml" filepath="$PROJECT_DIR$/teabot.iml" />
     </modules>
   </component>
 </project>

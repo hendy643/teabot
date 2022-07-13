@@ -12,6 +12,11 @@
       <option name="url" value="https://jitpack.io" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="github" />
+      <option name="url" value="https://maven.pkg.github.com/hendy643/lodestone-java" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="github-teabot" />
       <option name="name" value="github-teabot" />
       <option name="url" value="https://maven.pkg.github.com/hendy643/teabot" />
